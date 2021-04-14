@@ -226,8 +226,11 @@ spec:
     component: combined
   ports:
   - name: rspamd
-    port: 6379
+    port: 11332
     protocol: TCP
+  - name: rspamd-http
+    protocol: TCP
+    port: 11334
 
 ---
 apiVersion: v1
