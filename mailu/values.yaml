@@ -21,6 +21,7 @@
 nameOverride: ""
 fullnameOverride: ""
 clusterDomain: cluster.local
+imagePullPolicy: Always
 
 nodeSelector: {}
 
@@ -93,6 +94,9 @@ mailuVersion: 1.8
 # default log level. can be overridden globally or per service
 logLevel: WARNING
 
+# Set to true if Redis and Admin containers should run from the same pod to share DKIM mount
+combineRspamdAdmin: false
+
 mail:
   messageSizeLimitInMegabytes: 50
   authRatelimit: 10/minute;1000/hour
@@ -141,6 +145,9 @@ admin:
     limits:
       memory: 500Mi
       cpu: 500m
+  persistence:
+    size: 10G
+    accessMode: ReadWriteOnce
   podAnnotations: {}
 
 redis:
@@ -154,6 +161,9 @@ redis:
     limits:
       memory: 300Mi
       cpu: 200m
+  persistence:
+    size: 10G
+    accessMode: ReadWriteOnce
 
 postfix:
   # logLevel: WARNING
@@ -168,6 +178,9 @@ postfix:
     limits:
       memory: 2Gi
       cpu: 500m
+  persistence:
+    size: 100G
+    accessMode: ReadWriteOnce
 
 dovecot:
   enabled: true
@@ -183,6 +196,9 @@ dovecot:
     limits:
       memory: 500Mi
       cpu: 500m
+  persistence:
+    size: 10G
+    accessMode: ReadWriteOnce
 
 rspamd:
   # logLevel: WARNING
@@ -197,6 +213,7 @@ rspamd:
     limits:
       memory: 200Mi
       cpu: 200m
+  # shares persistence with admin
 
 clamav:
   enabled: true
@@ -212,6 +229,9 @@ clamav:
     limits:
       memory: 2Gi
       cpu: 1000m
+  persistence:
+    size: 10G
+    accessMode: ReadWriteOnce
 
 roundcube:
   enabled: true
@@ -227,6 +247,9 @@ roundcube:
     limits:
       memory: 200Mi
       cpu: 200m
+  persistence:
+    size: 10G
+    accessMode: ReadWriteOnce
 
 
 webdav:
@@ -236,6 +259,9 @@ webdav:
     repository: mailu/radicale
     # tag defaults to mailuVersion
     # tag: master
+  persistence:
+    size: 10G
+    accessMode: ReadWriteOnce
 
 mysql:
   image:
@@ -248,3 +274,6 @@ mysql:
     limits:
       memory: 512Mi
       cpu: 200m
+  persistence:
+    size: 10G
+    accessMode: ReadWriteOnce
