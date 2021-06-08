@@ -1,0 +1,13 @@
+{{- if .Values.roundcube.customConfig }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "mailu.claimName" . }}-roundcube-config
+data:
+  {{- $files := .Files }}
+  {{- range tuple "config.inc.php" "logo.svg" }}
+  {{ . }}: |-
+{{ $files.Get . | indent 8 }}
+  {{- end }}
+
+{{- end }}

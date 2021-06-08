@@ -38,6 +38,14 @@ spec:
           - mountPath: /data
             name: data
             subPath: roundcube
+            {{- if .Values.roundcube.customConfig }}
+          - name: config
+            mountPath: /var/www/html/config/config.inc.php
+            subPath: config
+          - name: config
+            mountPath: /var/www/html/skins/elastic/images/logo.svg
+            subPath: logo
+            {{- end }}
         env:
           - name: MESSAGE_SIZE_LIMIT
             value: "{{ mul .Values.mail.messageSizeLimitInMegabytes (mul 1024 1024) }}"
@@ -108,6 +116,16 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "mailu.claimName" . }}{{ if .Values.combineRspamdAdmin  }}-roundcube{{ end }}
+        {{- if .Values.roundcube.customConfig }}
+        - name: config
+          configMap:
+            name: {{ template "mailu.claimName" . }}-roundcube-config
+            items:
+            - key: config.inc.php
+              path: config
+            - key: logo.svg
+              path: logo
+        {{- end }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
