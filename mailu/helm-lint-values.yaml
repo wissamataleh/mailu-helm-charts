@@ -69,8 +69,12 @@ roundcube:
   image:
     tag: master
 
-
 webdav:
+  logLevel: WARNING
+  image:
+    tag: master
+
+fetchmail:
   logLevel: WARNING
   image:
     tag: master
