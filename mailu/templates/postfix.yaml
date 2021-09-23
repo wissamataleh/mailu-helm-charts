@@ -59,6 +59,8 @@ spec:
             value: {{ include "mailu.fullname" . }}-admin
           - name: FRONT_ADDRESS
             value: {{ include "mailu.fullname" . }}-front
+          - name: RELAYNETS
+            value: "{{ .Values.relaynets }}"
           {{ if hasKey .Values.external_relay "host" }}
           - name: RELAYHOST
             value: "{{ .Values.external_relay.host }}"
