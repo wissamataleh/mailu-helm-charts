@@ -75,6 +75,8 @@ spec:
             value: mailu-admin
           - name: FRONT_ADDRESS
             value: mailu-front
+          - name: RELAYNETS
+            value: ""
           
         ports:
           - name: smtp
